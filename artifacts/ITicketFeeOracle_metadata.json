@@ -1,0 +1,59 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "getTicketFee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"lottery.sol": "ITicketFeeOracle"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"lottery.sol": {
+			"keccak256": "0x1aa4583f3929a21d57b8b606e7f4a8524dddf0941309fa8cbc17f326b406d38d",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://2906302e389ca302a5644446f68e472872b9c628baabb8f7608acf41328bcd37",
+				"dweb:/ipfs/QmeSjux9Q5dS2dDDwqVPXapHLNLYVXAGnoXMsQtVkeSzzE"
+			]
+		}
+	},
+	"version": 1
+}
