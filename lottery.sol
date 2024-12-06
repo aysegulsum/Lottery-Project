@@ -4,7 +4,7 @@ pragma solidity >=0.8.2 <0.9.0;
 
 interface ITicketFeeOracle {
     function getTicketFee() external view returns (uint);
-    }
+}
 
 contract Lottery{
 
@@ -15,21 +15,26 @@ contract Lottery{
     uint public ticketFee;
     uint public purchaseEndTime;
     uint public decideEndTime;
+    ITicketFeeOracle public feeOracle;
 
     mapping (address => bytes32) public userRNHashes; // hashes submitted by users
     mapping (address => uint) public revealedNumbers; // numbers revealed by users
     uint256 public finalRandomNumber;
    
 
-    constructor(uint _purchaseDuration, uint _decideDuration){
+    constructor(uint _purchaseDuration, uint _decideDuration, address _ticketFeeOracle){
         admin = payable(msg.sender);
-        ITicketFeeOracle  feeOracle = ITicketFeeOracle(0xAD39623a8Cd97185755310Cec8AFDb19Fe330D5A);
+        feeOracle = ITicketFeeOracle(_ticketFeeOracle); // 0xAD39623a8Cd97185755310Cec8AFDb19Fe330D5A
         ticketFee = feeOracle.getTicketFee();
         purchaseEndTime = block.timestamp + _purchaseDuration;
         decideEndTime = purchaseEndTime + _decideDuration;
     }
   
-
+    function startLottery() public {
+        require(msg.sender == admin, "You are not the owner");
+        //feeOracle = ITicketFeeOracle(0xAD39623a8Cd97185755310Cec8AFDb19Fe330D5A);
+        ticketFee = feeOracle.getTicketFee();
+    }
        // contracts balance
     function getBalance() view public returns(uint){
         return address(this).balance; 
@@ -78,9 +83,14 @@ contract Lottery{
 
         // selfdestruct(payable(winner)); ide not support to destruct
     }
-
-/*    function random() internal view returns(uint){
-        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp,users.length)));
-
-    }*/
+    function learnStage() view public returns (string memory stage, uint currentTime, uint endTime){
+        if (block.timestamp < purchaseEndTime) {
+            return ("The lottery is still open for purchasing", block.timestamp, purchaseEndTime);
+            } else if (block.timestamp < decideEndTime) {
+            return ("The lottery is still open for revealing" , block.timestamp, decideEndTime);
+            }
+            else {
+            return ("The lottery is over" , block.timestamp, decideEndTime);
+            }
+    }
 }

@@ -16,6 +16,11 @@
 						"internalType": "uint256",
 						"name": "_decideDuration",
 						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_ticketFeeOracle",
+						"type": "address"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -43,6 +48,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "feeOracle",
+				"outputs": [
+					{
+						"internalType": "contract ITicketFeeOracle",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "finalRandomNumber",
 				"outputs": [
 					{
@@ -61,6 +79,29 @@
 					{
 						"internalType": "uint256",
 						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "learnStage",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "stage",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "currentTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endTime",
 						"type": "uint256"
 					}
 				],
@@ -130,6 +171,13 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "startLottery",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -210,7 +258,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"lottery.sol": "Lottery"
+			"Lottery-Project/lottery.sol": "Lottery"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -224,12 +272,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"lottery.sol": {
-			"keccak256": "0x1aa4583f3929a21d57b8b606e7f4a8524dddf0941309fa8cbc17f326b406d38d",
+		"Lottery-Project/lottery.sol": {
+			"keccak256": "0x0553012678ff4b2475a785175521f1f88aab44b3d95dfeb3206ea8a742387c78",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://2906302e389ca302a5644446f68e472872b9c628baabb8f7608acf41328bcd37",
-				"dweb:/ipfs/QmeSjux9Q5dS2dDDwqVPXapHLNLYVXAGnoXMsQtVkeSzzE"
+				"bzz-raw://90b3e14ac1264cd2a2775bbd4edfb41a529de15a28d43f7e2494bef99766d85f",
+				"dweb:/ipfs/QmdWEYEAmP4G7VpJJYsHMDTDp2yPRTgQAA4VQRPPQ6V12E"
 			]
 		}
 	},
