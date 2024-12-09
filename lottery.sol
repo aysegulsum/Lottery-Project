@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.8.2 <0.9.0;
-
+/*
 interface ITicketFeeOracle {
     function getTicketFee() external view returns (uint);
     }
-
+*/
 contract Lottery{
 
     address payable admin; //deployer
@@ -15,7 +15,7 @@ contract Lottery{
 
     uint public ticketFee;
     uint private purchaseEndTime;
-    uint private decideEndTime;
+    uint private decideEndTime; 
     uint256 private finalRandomNumber;  
 
     mapping (address => bytes32) public userRNHashes; // hashes submitted by users
@@ -31,7 +31,6 @@ contract Lottery{
         decideEndTime = purchaseEndTime + _decideDuration;
     }
   
-
        // contracts balance
     function getBalance() view public returns(uint){
         return address(this).balance; 
@@ -52,29 +51,23 @@ contract Lottery{
         userRNHashes[msg.sender] = hash;
         users.push(payable(msg.sender));
     }
-/*
-    function getSender(address sender, uint number) public  returns(bytes memory){
-        return abi.encodePacked(sender, number);
-    }
-*/
+
     //checks the hash 
-    function hashChecker(uint32 _number) view  internal returns(bool){
-        bytes memory combinedData = abi.encodePacked(_number);
-        bytes32 calculatedHash = keccak256(combinedData);
-       // bytes32 calculatedHash = sha256(abi.encodePacked(sender, number));
+    function hashChecker(address _sender, uint32 _number) view  internal returns(bool){
+        // avoid the hash of same random number using concatanation hash
+        bytes memory combine = abi.encodePacked(_sender, _number);
+        bytes32 calculatedHash = keccak256(combine);
+        // conpare the pre-hash and hash of user address-revealed number
         return userRNHashes[msg.sender] == calculatedHash;
     }
-    /*function hashChecker(address sender, uint number) view internal returns (bool) {
-        bytes32 calculatedHash = sha256(abi.encodePacked(sender, number));
-        return userRNHashes[sender] == calculatedHash;
-    }*/
-
+ 
     // reveal the random number
     function revealNumber(uint32 number) external {
+        require(block.timestamp > purchaseEndTime, "Lottery reveal period not yet started");
         require(block.timestamp < decideEndTime, "Lottery reveal period is over!");
         require(userRNHashes[msg.sender] != 0, "No hash submitted");
         require(revealedNumbers[msg.sender] == 0, "Already revealed");
-        require(hashChecker(number), "You aren't revealing the correct number!");
+        require(hashChecker(msg.sender, number), "You aren't revealing the correct number!");
         revealedNumbers[msg.sender] = number;
     }
     // decide the winner after reaching reveal time
@@ -82,7 +75,7 @@ contract Lottery{
         require( admin == msg.sender, "You are not the owner!");
         require( !winnerExist, "Winner already choosed.");
         require(block.timestamp >= decideEndTime, "Decide stage has not ended!");
-            
+        // take xor of all revealed numbers 
         finalRandomNumber = revealedNumbers[users[0]];
         for (uint i = 1; i < users.length; i++) {
             finalRandomNumber ^= revealedNumbers[users[i]];
