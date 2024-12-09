@@ -26,7 +26,7 @@ contract Lottery{
         admin = payable(msg.sender);
        // ITicketFeeOracle  feeOracle = ITicketFeeOracle(0xAD39623a8Cd97185755310Cec8AFDb19Fe330D5A);
        //ticketFee = feeOracle.getTicketFee();
-        ticketFee = 7 ether;
+        ticketFee = 0.0007 ether;
         purchaseEndTime = block.timestamp + _purchaseDuration;
         decideEndTime = purchaseEndTime + _decideDuration;
     }
